@@ -15,3 +15,4 @@ sudo mysql -e "FLUSH PRIVILEGES;"
 
 date > /etc/vagrant_provisioned_DB_at
 
+$GITHUB_TOKEN
