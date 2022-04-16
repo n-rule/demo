@@ -15,12 +15,15 @@ Vagrant.configure("2") do |config|
     db.vm.hostname = 'DB-VM'
     db.vm.network :private_network, ip: "192.168.56.102"
     db.vm.usable_port_range = 8000..8999
+    db.vm.network "forwarded_port", guest: 3306, host: 3306
+    
+    config.vm.provision "file", source: "env.sh", destination: "/home/vagrant/"
     
     db.vm.provision "shell", path: "db-provision-script.sh", env: {
-    'DB_HOST'=>ENV['DB_HOST'], 
-    'DB_NAME'=>ENV['DB_NAME'],
-    'DB_USER'=>ENV['DB_USER'],
-    'DB_PASS'=>ENV['DB_PASS']
+    'MYSQL_DB'=>ENV['MYSQL_DB'], 
+    'MYSQL_USER'=>ENV['MYSQL_USER'],
+    'MYSQL_PASS'=>ENV['MYSQL_PASS'],
+    'MYSQL_URL'=>ENV['MYSQL_URL']
     }  
   end
 
@@ -33,10 +36,10 @@ Vagrant.configure("2") do |config|
  
     app.vm.provision "shell", path: "app-provision-script.sh", env: {
     'GITHUB_TOKEN'=>ENV['GITHUB_TOKEN'],
-    'DB_HOST'=>ENV['DB_HOST'], 
-    'DB_NAME'=>ENV['DB_NAME'],
-    'DB_USER'=>ENV['DB_USER'],
-    'DB_PASS'=>ENV['DB_PASS']
+    'MYSQL_DB'=>ENV['MYSQL_DB'], 
+    'MYSQL_USER'=>ENV['MYSQL_USER'],
+    'MYSQL_PASS'=>ENV['MYSQL_PASS'],
+    'MYSQL_URL'=>ENV['MYSQL_URL']
     }
   end
 
