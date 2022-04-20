@@ -6,16 +6,19 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 
-#env: {'DB_HOST'=>ENV['DB_HOST], 'DB_NAME'=>ENV['DB_NAME],'DB_USER'=>ENV['DB_USER],'DB_PASS'=>ENV['DB_PASS]}  
-
 Vagrant.configure("2") do |config|
   
   config.vm.define "db" do |db|
     db.vm.box = "ubuntu/focal64"
     db.vm.hostname = 'DB-VM'
     db.vm.network :private_network, ip: "192.168.56.102"
-    db.vm.usable_port_range = 8000..8999
-    db.vm.network "forwarded_port", guest: 3306, host: 3306
+    #db.vm.usable_port_range = 8000..8999
+    #db.vm.network "forwarded_port", guest: 3306, host: 3306
+    
+    #config.vm.provider "virtualbox" do |v|
+    #    v.memory = 1024
+    #   v.cpus = 2
+    #end
     
     config.vm.provision "file", source: "env.sh", destination: "/home/vagrant/"
     
@@ -32,7 +35,17 @@ Vagrant.configure("2") do |config|
     app.vm.box = "ubuntu/focal64"
     app.vm.hostname = 'APP-VM'
     app.vm.network :private_network, ip: "192.168.56.101"
-    app.vm.network "forwarded_port", guest: 80, host: 8080
+    #app.vm.network "forwarded_port", guest: 80, host: 8080
+ 
+    #config.vm.provider "virtualbox" do |v|
+    #    v.memory = 2048
+    #    v.cpus = 2
+    #end 
+    
+    app.vm.provision "file", source: "petclinic-main.service", destination: "/home/vagrant/"
+    app.vm.provision "file", source: "petclinic-backup.service", destination: "/home/vagrant/"
+    app.vm.provision "file", source: "healthcheck.sh", destination: "/home/vagrant/"
+    
  
     app.vm.provision "shell", path: "app-provision-script.sh", env: {
     'GITHUB_TOKEN'=>ENV['GITHUB_TOKEN'],
@@ -43,28 +56,7 @@ Vagrant.configure("2") do |config|
     }
   end
 
-  
-
-#{GITHUB_TOKEN:ENV['GITHUB_TOKEN'], APP_USER:ENV['APP_USER']}
-
-#db.vm.provision :shell, path: "setupdb.sh", env: {'MYSQL_USER' =>ENV['MYSQL_USER'], 'MYSQL_URL' => ENV['MYSQL_URL'], 'MYSQL_PASS' => ENV['MYSQL_PASS']}
-
-
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   # The most common configuration options are documented and commented below.

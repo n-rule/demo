@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo ---------------------- I am provisioning at DB... -------------------------------------
 
 sudo mv //home/vagrant/env.sh /etc/profile.d/
@@ -7,14 +9,22 @@ sudo apt-get update && sudo apt-get upgrade -y
 
 sudo apt-get -y install mysql-server
 
+# EDITING MYSQL.CONFIG TO ENABLE REMOTE CONNECTIONS TO DB
+
 sudo cp /etc/mysql/mysql.conf.d/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld-backup.cnf
 sed -i '0,/127.0.0.1/{s/127.0.0.1/0.0.0.0/}' /etc/mysql/mysql.conf.d/mysqld.cnf
+#sudo sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
 sudo service mysql restart
 
-sudo mysql -e "CREATE USER '$MYSQL_USER'@'192.168.56.101' IDENTIFIED BY '$MYSQL_PASS';"
-sudo mysql -e "CREATE DATABASE $MYSQL_DB;"
-sudo mysql -e "GRANT ALL PRIVILEGES ON $MYSQL_DB . * TO '$MYSQL_USER'@'192.168.56.101';"
-sudo mysql -e "FLUSH PRIVILEGES;"
+
+# CREATING USER, DB, ADD PRIVILEGES
+mysql -u root <<MYSQL_SCRIPT
+CREATE USER '$MYSQL_USER'@'192.168.56.101' IDENTIFIED BY '$MYSQL_PASS';
+CREATE DATABASE $MYSQL_DB;
+GRANT ALL PRIVILEGES ON $MYSQL_DB . * TO '$MYSQL_USER'@'192.168.56.101';
+FLUSH PRIVILEGES;
+MYSQL_SCRIPT
+
 
 date > /etc/vagrant_provisioned_DB_at
 
