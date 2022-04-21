@@ -2,20 +2,18 @@
 
 echo ---------------------- I am provisioning at DB... -------------------------------------
 
+# Moving env variables previously copied in vagrant config
 sudo mv //home/vagrant/env.sh /etc/profile.d/
 source /etc/profile.d/env.sh
 
 sudo apt-get update && sudo apt-get upgrade -y
-
 sudo apt-get -y install mysql-server
 
 # EDITING MYSQL.CONFIG TO ENABLE REMOTE CONNECTIONS TO DB
-
 sudo cp /etc/mysql/mysql.conf.d/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld-backup.cnf
 sed -i '0,/127.0.0.1/{s/127.0.0.1/0.0.0.0/}' /etc/mysql/mysql.conf.d/mysqld.cnf
 #sudo sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
 sudo service mysql restart
-
 
 # CREATING USER, DB, ADD PRIVILEGES
 mysql -u root <<MYSQL_SCRIPT

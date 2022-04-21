@@ -23,10 +23,9 @@ Vagrant.configure("2") do |config|
     config.vm.provision "file", source: "env.sh", destination: "/home/vagrant/"
     
     db.vm.provision "shell", path: "db-provision-script.sh", env: {
-    'MYSQL_DB'=>ENV['MYSQL_DB'], 
-    'MYSQL_USER'=>ENV['MYSQL_USER'],
-    'MYSQL_PASS'=>ENV['MYSQL_PASS'],
-    'MYSQL_URL'=>ENV['MYSQL_URL']
+    #'MYSQL_DB'=>ENV['MYSQL_DB'],   - NOT THE BEST DECISION TO PASS MANY VARIABLES
+    #'MYSQL_USER'=>ENV['MYSQL_USER'],
+    #'MYSQL_PASS'=>ENV['MYSQL_PASS']
     }  
   end
 
@@ -48,11 +47,11 @@ Vagrant.configure("2") do |config|
     
  
     app.vm.provision "shell", path: "app-provision-script.sh", env: {
-    'GITHUB_TOKEN'=>ENV['GITHUB_TOKEN'],
-    'MYSQL_DB'=>ENV['MYSQL_DB'], 
-    'MYSQL_USER'=>ENV['MYSQL_USER'],
-    'MYSQL_PASS'=>ENV['MYSQL_PASS'],
-    'MYSQL_URL'=>ENV['MYSQL_URL']
+    #'GITHUB_TOKEN'=>ENV['GITHUB_TOKEN'], - - NOT THE BEST DECISION TO PASS MANY VARIABLES
+    #'MYSQL_DB'=>ENV['MYSQL_DB'], 
+    #'MYSQL_USER'=>ENV['MYSQL_USER'],
+    #'MYSQL_PASS'=>ENV['MYSQL_PASS'],
+    #'MYSQL_IP'=>ENV['MYSQL_IP']
     }
   end
 

@@ -8,11 +8,11 @@ OnFailure=petclinic-backup.service
 
 Type=simple
 
-Environment='MYSQL_URL=jdbc:mysql://192.168.56.102:3306/petclinic'
-Environment='MYSQL_USER=db_user'
-Environment='MYSQL_PASS=db_pass'
+#Environment='MYSQL_URL=jdbc:mysql://192.168.56.102:3306/petclinic'
+#Environment='MYSQL_USER=db_user'
+#Environment='MYSQL_PASS=db_pass'
 
-#EnvironmentFile=-/etc/profile.d/env.sh
+EnvironmentFile=/etc/systemd/petclinic-env.conf
 
 User=app-user
 
