@@ -1,4 +1,4 @@
-# It is a test Petclinic Project using Vagrant.
+# It is a demo automation using Vagrant to deploy Petclinic-demo
 
 To start a project:
 
