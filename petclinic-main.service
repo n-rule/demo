@@ -21,8 +21,6 @@ WorkingDirectory=/home/app-user/petclinic/target
 ExecStart=java -Dspring.profiles.active=mysql -jar spring-petclinic-2.6.0-SNAPSHOT.jar
 #ExecStopPost=java -jar spring-petclinic-2.6.0-SNAPSHOT.jar
 
-#OnFailure=java -jar /home/app-user/petclinic/target/spring-petclinic-2.6.0-SNAPSHOT.jar
-
 #ExecReload=/bin/kill -HUP $MAINPID
 
 KillMode=process

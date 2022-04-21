@@ -20,6 +20,7 @@ Vagrant.configure("2") do |config|
     #   v.cpus = 2
     #end
     
+    #Adding env vars to all users
     config.vm.provision "file", source: "env.sh", destination: "/home/vagrant/"
     
     db.vm.provision "shell", path: "db-provision-script.sh", env: {
